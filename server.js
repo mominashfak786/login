@@ -17,7 +17,7 @@ const islogged = async (req, res, next) => {
   if (token) {
     const decode = json.verify(token, secretKey);
     req.user = await Login.findById(decode.id);
-    console.log(decode);
+    // console.log(req.user); // log the user object
     next(); // Call next() to continue to the next middleware or route handler
   } else {
     res.redirect("/login");
@@ -25,8 +25,10 @@ const islogged = async (req, res, next) => {
 };
 
 app.get("/", islogged, async function (req, res) {
-  res.render("logout", { name: req.user.name });
+  
+  res.render("logout", { email: req.user.email });
 });
+
 
 app.get("/create", function (req, res) {
   res.render("create");
